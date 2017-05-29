@@ -1,0 +1,7 @@
+FROM node:7
+WORKDIR /opt/project
+COPY . /opt/project
+RUN npm install -g nodemon
+
+ENTRYPOINT ["npm"]
+CMD ["run-script", "nodemon"]

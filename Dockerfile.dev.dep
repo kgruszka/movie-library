@@ -1,0 +1,8 @@
+FROM node:7-alpine
+
+WORKDIR /opt/project
+COPY package.json /opt/project
+RUN npm install
+VOLUME ["/opt/project/node_modules"]
+
+ENTRYPOINT ["/bin/sh"]
