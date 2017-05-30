@@ -13,6 +13,7 @@ async function cmd (command) {
   return new Promise((resolve, reject) => {
     exec(command, (err, stdout, stderr) => {
       if (err) {
+        console.log(stdout);
         reject(stderr)
       } else {
         console.log(stdout);
@@ -29,7 +30,7 @@ gulp.task('dev:build', () => {
 })
 
 gulp.task('dev:run', () => {
-  return cmd(`docker run -d --rm -p 3000:3000 -v .:/opt/project --volumes-from ${DEPENDENCIES_CONTAINER} --name ${DEVELOPMENT_CONTAINER} ${DEVELOPMENT_IMAGE}`)
+  return cmd(`docker run -d --rm -p 3000:3000 -v %cd%:/opt/project --volumes-from ${DEPENDENCIES_CONTAINER} --name ${DEVELOPMENT_CONTAINER} ${DEVELOPMENT_IMAGE}`)
 })
 
 gulp.task('dev:rm', async () => {
@@ -37,7 +38,6 @@ gulp.task('dev:rm', async () => {
   if (exists) {
     return cmd(`docker rm -v -f ${DEVELOPMENT_CONTAINER}`)
   }
-  return
 })
 
 gulp.task('dev:dep:create', () => {
@@ -49,7 +49,6 @@ gulp.task('dev:dep:rm', async () => {
   if (exists) {
     return cmd(`docker rm -v -f ${DEPENDENCIES_CONTAINER}`)
   }
-  return
 })
 
 gulp.task('dev:clean', ['dev:rm', 'dev:dep:rm'])
@@ -63,9 +62,13 @@ gulp.task('dev', cb => {
   )
 })
 
-// gulp.task('test', () => {
-//   return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm test`)
-// })
+gulp.task('test', () => {
+  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm test`)
+})
+
+gulp.task('test:acceptance', () => {
+  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm run-script test:acceptance`)
+})
 
 process.on('uncaughtException', (err) => {
   console.log(`${err}`)
