@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "mocha src/**/*.spec.js",
-    "test:acceptance": "mocha src/**/*.accept.js",
+    "test": "NODE_ENV=test mocha src/**/*.spec.js",
+    "test:acceptance": "NODE_ENV=test mocha src/**/*.accept.js",
     "standard": "standard src/**/*.js",
     "nodemon": "NODE_ENV=development nodemon src/server.js",
     "snyk-protect": "snyk protect",
@@ -17,12 +17,14 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "mongodb": "^2.2.27",
     "morgan": "^1.8.1",
     "snyk": "^1.30.1"
   },
   "snyk": true,
   "devDependencies": {
     "chai": "^4.0.0",
+    "dotenv": "^4.0.0",
     "gulp": "^3.9.1",
     "mocha": "^3.4.2",
     "run-sequence": "^1.2.2",
