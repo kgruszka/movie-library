@@ -6,9 +6,9 @@
     "node": ">=7.10"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "mocha test.js",
-    "nodemon": "NODE_ENV=development nodemon index.js",
+    "nodemon": "NODE_ENV=development nodemon server.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },
