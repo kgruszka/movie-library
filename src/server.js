@@ -1,6 +1,6 @@
 'use strict'
 
-const app = require('./web');
+const app = require('./web/index');
 const http = require('http');
 
 const port = normalizePort(process.env.PORT || '3000');

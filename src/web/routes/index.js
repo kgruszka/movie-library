@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express')
 const router = express.Router()
-const v1 = require('./v1')
+const v1 = require('./v1/index')
 
 router.use('/api/v1', v1)
 

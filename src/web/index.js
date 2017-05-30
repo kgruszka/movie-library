@@ -3,7 +3,7 @@ const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 
-const router = require('./routes')
+const router = require('./routes/index')
 const app = express()
 
 app.use(logger('dev'))
