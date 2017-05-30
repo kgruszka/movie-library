@@ -7,6 +7,8 @@
   },
   "scripts": {
     "start": "node src/server.js",
+    "test": "mocha src/**/*.spec.js",
+    "test:acceptance": "mocha src/**/*.accept.js",
     "standard": "standard src/**/*.js",
     "nodemon": "NODE_ENV=development nodemon src/server.js",
     "snyk-protect": "snyk protect",
@@ -20,9 +22,11 @@
   },
   "snyk": true,
   "devDependencies": {
+    "chai": "^4.0.0",
     "gulp": "^3.9.1",
     "mocha": "^3.4.2",
     "run-sequence": "^1.2.2",
-    "standard": "^10.0.2"
+    "standard": "^10.0.2",
+    "supertest": "^3.0.0"
   }
 }
