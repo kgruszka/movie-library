@@ -9,10 +9,10 @@ const DEPENDENCIES_CONTAINER = 'movie-library-dep'
 const DEVELOPMENT_IMAGE_FILE = 'Dockerfile.dev'
 const DEPENDENCIES_IMAGE_FILE = 'Dockerfile.dev.dep'
 
-async function cmd (command) {
+async function cmd (command, options = {}) {
   return new Promise((resolve, reject) => {
     exec(command, (err, stdout, stderr) => {
-      if (err) {
+      if (err && !options.omitErr) {
         console.log(stdout);
         reject(stderr)
       } else {
@@ -63,11 +63,11 @@ gulp.task('dev', cb => {
 })
 
 gulp.task('test', () => {
-  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm test`)
+  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm test`, {omitErr:true})
 })
 
 gulp.task('test:acceptance', () => {
-  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm run-script test:acceptance`)
+  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm run-script test:acceptance`, {omitErr:true})
 })
 
 process.on('uncaughtException', (err) => {
