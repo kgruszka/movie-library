@@ -7,6 +7,7 @@
   },
   "scripts": {
     "start": "node src/server.js",
+    "standard": "standard src/**/*.js",
     "nodemon": "NODE_ENV=development nodemon src/server.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
@@ -21,6 +22,7 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "mocha": "^3.4.2",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "standard": "^10.0.2"
   }
 }
