@@ -3,6 +3,10 @@
 const app = require('./web/index');
 const http = require('http');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const port = normalizePort(process.env.PORT || '3000');
 
 app.set('port', port);
@@ -58,8 +62,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  const addr = server.address();
+  const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+  console.log(`Server listening on ${bind}`)
 }
