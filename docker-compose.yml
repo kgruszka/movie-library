@@ -1,0 +1,38 @@
+version: '2.1'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: movie-library-dev
+    container_name: movie-library-dev
+    command: [run-script, nodemon]
+    depends_on:
+        mongo:
+          condition: service_started
+        node_modules:
+          condition: service_started
+    volumes_from:
+      - node_modules
+    volumes:
+      - .:/opt/project
+    ports:
+      - "3000:3000"
+    networks:
+      - movie-library-net
+  mongo:
+    image: mongo:3.2
+    container_name: ${MONGO_HOST}
+    networks:
+      - movie-library-net
+
+  node_modules:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev.dep
+    image: movie-library-dep
+    container_name: movie-library-dep
+
+networks:
+  movie-library-net:
+    driver: bridge

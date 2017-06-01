@@ -8,9 +8,9 @@ const DEPENDENCIES_IMAGE = 'movie-library-dep'
 const DEPENDENCIES_CONTAINER = 'movie-library-dep'
 const DEVELOPMENT_IMAGE_FILE = 'Dockerfile.dev'
 const DEPENDENCIES_IMAGE_FILE = 'Dockerfile.dev.dep'
-const DEVELOPMENT_NETWORK = 'movie-library-network'
+const DEVELOPMENT_NETWORK = 'movie-library-net'
 const DEVELOPMENT_NETWORK_SUBNET = '172.25.10.0/24'
-const DEVELOPMENT_MONGO_CONTAINER = 'movie-library-mongo'
+const DEVELOPMENT_MONGO_CONTAINER = process.env.MONGO_HOST || 'movie-library-mongo'
 const MONGO_IMAGE = 'mongo:3.2'
 
 async function cmd (command, options = {}) {
