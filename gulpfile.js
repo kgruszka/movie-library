@@ -1,7 +1,7 @@
 'use strict'
 const gulp = require('gulp')
-const exec = require('child_process').exec;
-const seq = require('run-sequence');
+const exec = require('child_process').exec
+const seq = require('run-sequence')
 const DEVELOPMENT_IMAGE = 'movie-library-dev'
 const DEVELOPMENT_CONTAINER = 'movie-library-dev'
 const DEPENDENCIES_IMAGE = 'movie-library-dep'
@@ -17,10 +17,10 @@ async function cmd (command, options = {}) {
   return new Promise((resolve, reject) => {
     exec(command, (err, stdout, stderr) => {
       if (err && !options.omitErr) {
-        console.log(stdout);
+        console.log(stdout)
         reject(stderr)
       } else {
-        console.log(stdout);
+        console.log(stdout)
         resolve(stdout)
       }
     })
@@ -32,7 +32,6 @@ gulp.task('dev:build', () => {
   const buildDevelopmentImage = cmd(`docker build -t ${DEVELOPMENT_IMAGE} -f ${DEVELOPMENT_IMAGE_FILE} .`)
   return Promise.all([buildDependenciesImage, buildDevelopmentImage])
 })
-
 
 gulp.task('dev:network:create', () => {
   return cmd(`docker network create -d bridge --subnet ${DEVELOPMENT_NETWORK_SUBNET} ${DEVELOPMENT_NETWORK}`)
@@ -58,8 +57,8 @@ gulp.task('dev:mongo:rm', async () => {
 
 gulp.task('dev:run', () => {
   return cmd(
-    `docker run -d -p 3000:3000 -v %cd%:/opt/project --volumes-from ${DEPENDENCIES_CONTAINER}`
-     + ` --name ${DEVELOPMENT_CONTAINER} --network ${DEVELOPMENT_NETWORK} ${DEVELOPMENT_IMAGE} run-script nodemon`
+    `docker run -d -p 3000:3000 -v %cd%:/opt/project --volumes-from ${DEPENDENCIES_CONTAINER}` +
+     ` --name ${DEVELOPMENT_CONTAINER} --network ${DEVELOPMENT_NETWORK} ${DEVELOPMENT_IMAGE} run-script nodemon`
   )
 })
 
@@ -108,11 +107,15 @@ gulp.task('dev', cb => {
 })
 
 gulp.task('test', () => {
-  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm test`, {omitErr:true})
+  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} npm test`, {omitErr: true})
 })
 
 gulp.task('test:acceptance', () => {
-  return cmd(`docker exec ${DEVELOPMENT_CONTAINER} npm run-script test:acceptance`, {omitErr:true})
+  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} npm run-script test:acceptance`, {omitErr: true})
+})
+
+gulp.task('standard:fix', () => {
+  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} standard --fix`, {omitErr: true})
 })
 
 process.on('uncaughtException', (err) => {
