@@ -9,7 +9,7 @@
     "start": "node src/server.js",
     "test": "NODE_ENV=test mocha src/**/*.spec.js",
     "test:acceptance": "NODE_ENV=test mocha src/**/*.accept.js",
-    "standard": "standard src/**/*.js",
+    "pretest": "standard",
     "nodemon": "NODE_ENV=development nodemon --watch src -L src/server.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
