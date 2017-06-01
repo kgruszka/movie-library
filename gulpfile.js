@@ -52,14 +52,14 @@ gulp.task('dev:mongo:run', () => {
 gulp.task('dev:mongo:rm', async () => {
   const exists = await cmd(`docker ps -a -q -f name=${DEVELOPMENT_MONGO_CONTAINER}`)
   if (exists) {
-    return cmd(`docker rm -f ${DEVELOPMENT_MONGO_CONTAINER}`)
+    return cmd(`docker rm -v -f ${DEVELOPMENT_MONGO_CONTAINER}`)
   }
 })
 
 gulp.task('dev:run', () => {
   return cmd(
     `docker run -d --rm -p 3000:3000 -v %cd%:/opt/project --volumes-from ${DEPENDENCIES_CONTAINER}`
-     + ` --name ${DEVELOPMENT_CONTAINER} --network ${DEVELOPMENT_NETWORK} ${DEVELOPMENT_IMAGE}`
+     + ` --name ${DEVELOPMENT_CONTAINER} --network ${DEVELOPMENT_NETWORK} ${DEVELOPMENT_IMAGE} run-script nodemon`
   )
 })
 
