@@ -3,6 +3,7 @@
 const { assert } = require('chai')
 const express = require('express')
 const testUtils = require('./test')
+const { InvalidArgumentError } = require('./errors')
 
 describe('test utils module', function () {
   describe('#isRouteRegistered', function () {
@@ -51,7 +52,7 @@ describe('test utils module', function () {
     assert.isFalse(isRegistered)
   })
 
-  it('throws InvalidArgument exception when invalid route argument passed', function () {
+  it('throws InvalidArgumentError when invalid route argument passed', function () {
     // GIVEN
     const path = 3
     const method = {}
@@ -59,6 +60,6 @@ describe('test utils module', function () {
     // WHEN
     const fn = () => testUtils.isRouteRegistered(router, {path, method})
     // THEN
-    assert.throws(fn, Error, 'InvalidArgument')
+    assert.throws(fn, InvalidArgumentError)
   })
 })
