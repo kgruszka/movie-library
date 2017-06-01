@@ -1,6 +1,6 @@
 'use strict'
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const config = require('../../../config')
 const { MongoClient } = require('mongodb')
 
@@ -21,6 +21,6 @@ function getMovies () {
 router.get('/', async (req, res) => {
   const movies = await getMovies()
   res.json(movies)
-});
+})
 
-module.exports = router;
+module.exports = router

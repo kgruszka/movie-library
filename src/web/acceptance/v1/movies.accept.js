@@ -2,20 +2,19 @@
 'use strict'
 const { assert } = require('chai')
 const request = require('supertest')
-const fixtures = require('./fixtures');
+const fixtures = require('./fixtures')
 const app = require('../../index')
 const config = require('../../../config')
 const { MongoClient } = require('mongodb')
 let db = null
 
 describe('movies api', function () {
-
   before(async () => {
     db = await MongoClient.connect(config.mongodb.getUrl('test'))
   })
 
   beforeEach(async () => {
-    const collInfo = await db.listCollections({name:'movies'}).next()
+    const collInfo = await db.listCollections({name: 'movies'}).next()
     if (collInfo) {
       await db.dropCollection('movies')
     }
