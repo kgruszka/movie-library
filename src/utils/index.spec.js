@@ -10,7 +10,7 @@ describe('utils module', function () {
       assert.property(utils, 'test')
     })
 
-    it('is a test module', function () {
+    it('is a test utils module', function () {
       assert.equal(utils.test, testUtils)
     })
   })
