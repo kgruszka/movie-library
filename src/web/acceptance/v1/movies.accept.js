@@ -2,7 +2,7 @@
 'use strict'
 const { assert } = require('chai')
 const request = require('supertest')
-const fixtures = require('./fixtures')
+const fixtures = require('../../../utils/fixtures')
 const app = require('../../index')
 const config = require('../../../config')
 const { MongoClient } = require('mongodb')
