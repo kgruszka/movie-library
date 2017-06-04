@@ -43,7 +43,6 @@ NODE_ENV=development nodemon --watch src src/server.js
 # Run with Docker
 ## Requirements
     - Docker >= 1.12.0+
-    - gulp >= 3.9.1+ (only if using gulp tasks)
 
 ## Setup
 Set `MONGO_HOST` and `MONGO_PORT` for MongoDB container.
@@ -51,7 +50,6 @@ Set `MONGO_HOST` and `MONGO_PORT` for MongoDB container.
 ### Optional
 Set `PORT` for the server. The default is 3000.
 
-You can use either gulp tasks or docker-compose commands. Both tools utilizes Docker to run the app.
 Run the commands listed below in the project root directory.
 
 ## docker-compose
@@ -68,33 +66,10 @@ docker-compose up
 
 ### Destroy
 ```
-docker-compose down
+docker-compose down -v
 ```
 
 ### Restart server container
 ```
 docker-compose restart app
-```
-
-## gulp tasks
-
-### Build
-```
-gulp dev:build
-```
-
-### Start
-It does not build the images so you have to run `gulp dev:build` firstly.
-```
-gulp dev
-```
-
-### Destroy
-```
-gulp dev:clean
-```
-
-### Restart server container
-```
-gulp dev:restart
 ```
