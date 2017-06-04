@@ -80,3 +80,13 @@ types:
           body:
             application/json:
               type: response.404
+    delete:
+      description: Delete a single movie item
+      responses:
+        204:
+          description: Success. The movie item deleted.
+        404:
+          description: Resource not found.
+          body:
+            application/json:
+              type: response.404
