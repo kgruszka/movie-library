@@ -7,10 +7,6 @@ const { InvalidArgumentError } = require('./errors')
 
 describe('test utils module', function () {
   describe('#isRouteRegistered', function () {
-    it('is exported from the module as a property', function () {
-      assert.property(testUtils, 'isRouteRegistered')
-    })
-
     it('is a function', function () {
       assert.typeOf(testUtils.isRouteRegistered, 'function')
     })
@@ -19,10 +15,11 @@ describe('test utils module', function () {
       // GIVEN
       const path = '/test'
       const method = 'get'
+      const handler = () => {}
       const router = express.Router()
-      router.get('/test', () => {})
+      router.get('/test', handler)
       // WHEN
-      const isRegistered = testUtils.isRouteRegistered(router, {path, method})
+      const isRegistered = testUtils.isRouteRegistered(router, {path, method, handler})
       // THEN
       assert.isTrue(isRegistered)
     })
@@ -31,10 +28,25 @@ describe('test utils module', function () {
       // GIVEN
       const path = '/test'
       const method = 'put'
+      const handler = () => {}
       const router = express.Router()
-      router.post('/test', () => {})
+      router.post('/test', handler)
       // WHEN
-      const isRegistered = testUtils.isRouteRegistered(router, {path, method})
+      const isRegistered = testUtils.isRouteRegistered(router, {path, method, handler})
+      // THEN
+      assert.isFalse(isRegistered)
+    })
+
+    it('returns false when route is registered with different handler at given path', function () {
+      // GIVEN
+      const path = '/test'
+      const method = 'put'
+      const handler = () => {}
+      const otherHandler = () => {}
+      const router = express.Router()
+      router.post('/test', otherHandler)
+      // WHEN
+      const isRegistered = testUtils.isRouteRegistered(router, {path, method, handler})
       // THEN
       assert.isFalse(isRegistered)
     })
@@ -43,68 +55,47 @@ describe('test utils module', function () {
       // GIVEN
       const path = '/invalid'
       const method = 'get'
+      const handler = () => {}
       const router = express.Router()
-      router.get('/test', () => {})
+      router.get('/test', handler)
       // WHEN
-      const isRegistered = testUtils.isRouteRegistered(router, {path, method})
+      const isRegistered = testUtils.isRouteRegistered(router, {path, method, handler})
       // THEN
       assert.isFalse(isRegistered)
     })
 
-    it('throws InvalidArgumentError when invalid route argument passed', function () {
+    it('throws InvalidArgumentError when invalid route "path" argument passed', function () {
       // GIVEN
       const path = 3
-      const method = {}
+      const method = 'get'
+      const handler = () => {}
       const router = express.Router()
       // WHEN
-      const fn = () => testUtils.isRouteRegistered(router, {path, method})
+      const fn = () => testUtils.isRouteRegistered(router, {path, method, handler})
       // THEN
       assert.throws(fn, InvalidArgumentError)
     })
-  })
 
-  describe('#isRouterRegistered', function () {
-    it('is exported from the module as a property', function () {
-      assert.property(testUtils, 'isRouterRegistered')
-    })
-
-    it('is a function', function () {
-      assert.typeOf(testUtils.isRouterRegistered, 'function')
-    })
-
-    it('returns true when router is registered at given path', function () {
+    it('throws InvalidArgumentError when invalid route "method" argument passed', function () {
       // GIVEN
-      const path = '/v1'
-      const subRouter = express.Router()
-      const router = express.Router()
-      subRouter.get('/test', () => {})
-      router.use('/v1', subRouter)
-      // WHEN
-      const isRegistered = testUtils.isRouterRegistered(router, {path, subRouter})
-      // THEN
-      assert.isTrue(isRegistered)
-    })
-
-    it('returns false when router is not registered at given path', function () {
-      // GIVEN
-      const path = '/v1'
-      const subRouter = express.Router()
-      const router = express.Router()
-      subRouter.get('/test', () => {})
-      router.use('/v2', subRouter)
-      // WHEN
-      const isRegistered = testUtils.isRouterRegistered(router, {path, subRouter})
-      // THEN
-      assert.isFalse(isRegistered)
-    })
-
-    it('throws InvalidArgumentError when invalid route path argument passed', function () {
-      // GIVEN
-      const path = 3
+      const path = '/'
       const method = {}
+      const handler = () => {}
       const router = express.Router()
       // WHEN
-      const fn = () => testUtils.isRouteRegistered(router, {path, method})
+      const fn = () => testUtils.isRouteRegistered(router, {path, method, handler})
+      // THEN
+      assert.throws(fn, InvalidArgumentError)
+    })
+
+    it('throws InvalidArgumentError when invalid route "handler" argument passed', function () {
+      // GIVEN
+      const path = '/'
+      const method = 'get'
+      const handler = {}
+      const router = express.Router()
+      // WHEN
+      const fn = () => testUtils.isRouteRegistered(router, {path, method, handler})
       // THEN
       assert.throws(fn, InvalidArgumentError)
     })
