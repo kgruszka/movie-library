@@ -4,6 +4,7 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const routes = require('./routes')
 const controllers = require('./controllers')
+const cors = require('cors')
 
 function WebApp (movieService) {
   const app = express()
@@ -14,6 +15,8 @@ function WebApp (movieService) {
   app.use(logger('dev'))
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
+  app.options('*', cors())
+  app.use(cors())
 
   // setup routes
   app.use('/api/v1/movies', movieRouter)
