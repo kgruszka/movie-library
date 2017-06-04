@@ -18,8 +18,6 @@ async function cmd (command, options = {}) {
   })
 }
 
-gulp.task('dev:build', async () => cmd('docker-compose build'))
-
 gulp.task('dev:up', async () => cmd('docker-compose up -d'))
 
 gulp.task('dev:down', async () => cmd('docker-compose down -v'))
@@ -29,7 +27,6 @@ gulp.task('dev:app:restart', async () => cmd('docker-compose restart app'))
 gulp.task('dev', cb => {
   seq(
     'dev:down',
-    'dev:build',
     'dev:up',
     cb
   )
@@ -44,7 +41,11 @@ gulp.task('test:acceptance', () => {
 })
 
 gulp.task('standard:fix', () => {
-  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} standard --fix`, {omitErr: true})
+  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} npm run-script standard --fix`, {omitErr: true})
+})
+
+gulp.task('standard', () => {
+  return cmd(`docker exec -t ${DEVELOPMENT_CONTAINER} npm run-script standard`, {omitErr: true})
 })
 
 process.on('uncaughtException', (err) => {
