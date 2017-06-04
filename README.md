@@ -3,6 +3,9 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/kgruszka/movie-library/badge.svg)](https://snyk.io/test/github/kgruszka/movie-library)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/5b759953fe0248b1a241bc8700f64e61)](https://www.codacy.com/app/kgruszka/movie-library)
 
+# API docs
+API documentation is hosted [here](https://kgruszka.github.io/movie-library/)
+
 # Config
 ```
 cp .env.example .env
