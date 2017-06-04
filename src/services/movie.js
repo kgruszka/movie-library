@@ -5,8 +5,13 @@ function MovieService (db) {
     return db.getAll()
   }
 
+  async function create (movie) {
+    return db.save(movie)
+  }
+
   return {
-    getAll
+    getAll,
+    create
   }
 }
 

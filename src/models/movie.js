@@ -5,8 +5,14 @@ function Movie (db) {
   async function getAll () {
     return moviesCollection.find({}).toArray()
   }
+
+  async function save (movie) {
+    return moviesCollection.insertOne(movie)
+  }
+
   return {
-    getAll
+    getAll,
+    save
   }
 }
 

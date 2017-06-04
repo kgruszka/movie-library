@@ -6,8 +6,15 @@ function MovieController (movieService) {
     res.json(movies)
   }
 
+  async function create (req, res) {
+    const movieId = await movieService.create(req.body)
+    res.status(201)
+    res.json({movieId})
+  }
+
   return {
-    getAll
+    getAll,
+    create
   }
 }
 
