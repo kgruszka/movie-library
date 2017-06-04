@@ -7,12 +7,24 @@ function Movie (db) {
   }
 
   async function save (movie) {
-    return moviesCollection.insertOne(movie)
+    const result = await moviesCollection.insertOne(movie)
+    return result.insertedId
+  }
+
+  async function getById (id) {
+    return moviesCollection.findOne({_id: id})
+  }
+
+  async function deleteById (id) {
+    const result = await moviesCollection.deleteOne({_id: id})
+    return result.deletedCount === 1
   }
 
   return {
     getAll,
-    save
+    save,
+    getById,
+    deleteById
   }
 }
 

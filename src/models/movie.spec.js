@@ -40,12 +40,45 @@ describe('movie model', function () {
       const expectedMovieId = movie._id
       delete movie._id
       const db = createFakeDbWithCollection('movies')
-      db.collection('movies').insertOne = sinon.stub().withArgs(movie).resolves(expectedMovieId)
+      const result = {
+        insertedId: expectedMovieId
+      }
+      db.collection('movies').insertOne = sinon.stub().withArgs(movie).resolves(result)
       const Movie = createMovieModel(db)
       // WHEN
       const movieId = await Movie.save(movie)
       // THEN
       assert.strictEqual(movieId, expectedMovieId)
+    })
+  })
+
+  describe('#getById', function () {
+    it('resolves with movie item', async function () {
+      // GIVEN
+      const movieFixtures = fixtures.movies.load()
+      const expectedMovie = movieFixtures[0]
+      const db = createFakeDbWithCollection('movies')
+      db.collection('movies').findOne = sinon.stub().withArgs({_id: expectedMovie._id}).resolves(expectedMovie)
+      const Movie = createMovieModel(db)
+      // WHEN
+      const movie = await Movie.getById(expectedMovie._id)
+      // THEN
+      assert.strictEqual(movie, expectedMovie)
+    })
+  })
+
+  describe('#deleteById', function () {
+    it('resolves with success', async function () {
+      // GIVEN
+      const movieFixtures = fixtures.movies.load()
+      const movieId = movieFixtures[0]._id
+      const db = createFakeDbWithCollection('movies')
+      db.collection('movies').deleteOne = sinon.stub().withArgs({_id: movieId}).resolves({deletedCount: 1})
+      const Movie = createMovieModel(db)
+      // WHEN
+      const success = await Movie.deleteById(movieId)
+      // THEN
+      assert.isTrue(success)
     })
   })
 })

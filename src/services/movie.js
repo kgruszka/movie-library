@@ -9,9 +9,19 @@ function MovieService (db) {
     return db.save(movie)
   }
 
+  async function getById (movieId) {
+    return db.getById(movieId)
+  }
+
+  async function deleteById (movieId) {
+    return db.deleteById(movieId)
+  }
+
   return {
     getAll,
-    create
+    create,
+    getById,
+    deleteById
   }
 }
 

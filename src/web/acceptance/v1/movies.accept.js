@@ -48,19 +48,24 @@ describe('movies api', function () {
     it('responds with id of created movie item', async function () {
       const movies = fixtures.movies.load()
       const movie = movies[0]
+      delete movie._id
       return request(app)
         .post('/api/v1/movies')
-        .body(movie)
+        .send(movie)
         .expect(201)
         .then(response => {
-          assert.isString(response.body.id)
+          assert.isString(response.body._id)
         })
     })
 
     it('responds with 400 Bad Request for invalid request body', async function () {
+      const movies = fixtures.movies.load()
+      const invalidPayload = movies[0]
+      delete invalidPayload._id
+      delete invalidPayload.title
       return request(app)
         .post('/api/v1/movies')
-        .body({})
+        .send({})
         .expect(400)
         .then(response => {
           assert.strictEqual(response.body.status, 400)
