@@ -3,12 +3,14 @@
 const { assert } = require('chai')
 const request = require('supertest')
 const fixtures = require('../../../utils/fixtures')
-const app = require('../../index')
+const { createApp } = require('../../../server')
 const config = require('../../../config')
 const { MongoClient } = require('mongodb')
-let db = null
 
 describe('movies api', function () {
+  let db = null
+  let app = null
+
   before(async () => {
     db = await MongoClient.connect(config.mongodb.getUrl('test'))
   })
@@ -19,7 +21,10 @@ describe('movies api', function () {
       await db.dropCollection('movies')
     }
     const moviesCollection = await db.createCollection('movies')
-    await moviesCollection.insertMany(fixtures.movies)
+    const movies = fixtures.movies.load()
+    await moviesCollection.insertMany(movies)
+
+    app = await createApp()
   })
 
   after(async () => {
@@ -28,13 +33,81 @@ describe('movies api', function () {
 
   describe('GET /api/v1/movies', function () {
     it('responds with array of movie items', async function () {
+      const expectedMovies = fixtures.movies.load()
       return request(app)
         .get('/api/v1/movies')
-        .set('Accept', 'application/json')
         .expect(200)
         .then(response => {
           assert(Array.isArray(response.body), true)
-          assert.deepEqual(response.body, fixtures.movies)
+          assert.deepEqual(response.body, expectedMovies)
+        })
+    })
+  })
+
+  describe('POST /api/v1/movies', function () {
+    it('responds with id of created movie item', async function () {
+      const movies = fixtures.movies.load()
+      const movie = movies[0]
+      return request(app)
+        .post('/api/v1/movies')
+        .body(movie)
+        .expect(201)
+        .then(response => {
+          assert.isString(response.body.id)
+        })
+    })
+
+    it('responds with 400 Bad Request for invalid request body', async function () {
+      return request(app)
+        .post('/api/v1/movies')
+        .body({})
+        .expect(400)
+        .then(response => {
+          assert.strictEqual(response.body.status, 400)
+          assert.strictEqual(response.body.message, 'Bad Request')
+        })
+    })
+  })
+
+  describe('GET /api/v1/movies/:id', function () {
+    it('responds with specified movie item', async function () {
+      const movies = fixtures.movies.load()
+      const movie = movies[0]
+      return request(app)
+        .get(`/api/v1/movies/${movie._id}`)
+        .expect(200)
+        .then(response => {
+          assert.deepEqual(response.body, movie)
+        })
+    })
+
+    it('responds with 404 Not Found for not existing item', async function () {
+      return request(app)
+        .get('/api/v1/movies/123q2ert2731d23qw8as0d31')
+        .expect(404)
+        .then(response => {
+          assert.strictEqual(response.body.status, 404)
+          assert.strictEqual(response.body.message, 'Not Found')
+        })
+    })
+  })
+
+  describe('DELETE /api/v1/movies/:id', function () {
+    it('responds with 204 No Content', async function () {
+      const movies = fixtures.movies.load()
+      const movie = movies[0]
+      return request(app)
+        .delete(`/api/v1/movies/${movie._id}`)
+        .expect(204)
+    })
+
+    it('responds with 404 Not Found for not existing item', async function () {
+      return request(app)
+        .delete('/api/v1/movies/123q2ert2731d23qw8as0d31')
+        .expect(404)
+        .then(response => {
+          assert.strictEqual(response.body.status, 404)
+          assert.strictEqual(response.body.message, 'Not Found')
         })
     })
   })
