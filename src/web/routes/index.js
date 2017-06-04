@@ -1,8 +1,6 @@
 'use strict'
-const express = require('express')
-const router = express.Router()
-const v1 = require('./v1/index')
+const createMovieRouter = require('./movie')
 
-router.use('/api/v1', v1)
-
-module.exports = router
+module.exports = {
+  createMovieRouter
+}
