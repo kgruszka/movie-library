@@ -1,0 +1,8 @@
+{
+  "title": "MyAwesomeMovie",
+  "rating": 3.88,
+  "director": "Ken Block",
+  "actors": ["John Snow" , "Christina Jake"],
+  "category": "Thriller",
+  "createdAt": "2016-06-07T09:53:42.523Z"
+}

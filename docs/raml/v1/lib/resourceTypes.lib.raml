@@ -1,0 +1,85 @@
+#%RAML 1.0 Library
+
+uses:
+  response: responseTypes.lib.raml
+
+resourceTypes:
+  base:
+    post?:
+      responses:
+        500:
+          description: |
+            Internal server error.
+          body:
+            application/json:
+              type: response.500
+        503:
+          description: |
+            Service Unavailable.
+          body:
+            application/json:
+              type: response.503
+    get?:
+      responses:
+        500:
+          description: |
+            Internal server error.
+          body:
+            application/json:
+              type: response.500
+        503:
+          description: |
+            Service Unavailable.
+          body:
+            application/json:
+              type: response.503
+    put?:
+      responses:
+        500:
+          description: |
+            Internal server error.
+          body:
+            application/json:
+              type: response.500
+        503:
+          description: |
+            Service Unavailable.
+          body:
+            application/json:
+              type: response.503
+    delete?:
+      responses:
+        500:
+          description: |
+            Internal server error.
+          body:
+            application/json:
+              type: response.500
+        503:
+          description: |
+            Service Unavailable.
+          body:
+            application/json:
+              type: response.503
+    patch?:
+      responses:
+        500:
+          description: |
+            Internal server error.
+          body:
+            application/json:
+              type: response.500
+        503:
+          description: |
+            Service Unavailable.
+          body:
+            application/json:
+              type: response.503
+  collection:
+    type: base
+    post?:
+    get?:
+  item:
+    type: base
+    post?:
+    get?:

@@ -1,0 +1,82 @@
+#%RAML 1.0
+---
+title: movie-library API
+version: v1
+protocols: [HTTPS]
+mediaType: application/json
+#baseUri: https://?.com/api/{version}
+documentation:
+  - title: Home
+    content: |
+      Welcome to the movie-library documentation.
+      Movie-library API allows you to search for the best movies and add your own.
+uses:
+  resource: lib/resourceTypes.lib.raml
+  response: lib/responseTypes.lib.raml
+
+
+types:
+  Item: !include dataTypes/item.raml
+  Movie: !include dataTypes/movie.raml
+  MovieItem: [Movie, Item]
+
+/movies:
+  type: resource.collection
+  description: Movies collection
+  get:
+    description: List all existing movie items. Sorting possible with sort query parameter.
+    queryParameters:
+      sort:
+        description: |
+          The list of comma-separated properties used to sort the results.
+          The columns are sorted by default in ascending order. Descending order is specified by fieldName:desc
+          Allowed forms are: fieldName, fieldName:asc, fieldName:desc.
+          Default: rating:asc
+        example: "?sort=rating,category:desc"
+    responses:
+      200:
+        description: Success. The list of movie items returned.
+        body:
+          application/json:
+            type: array
+            items: MovieItem
+            example: !include /examples/moviesGet.json
+  post:
+    description: Add a new movie item.
+    body:
+      application/json:
+        type: Movie
+        example: !include /examples/moviesPost.json
+    responses:
+      201:
+        description: Success. The movie item created.
+        body:
+          application/json:
+            type: array
+            items: MovieItem
+            example: !include /examples/moviesGet.json
+      400:
+        description: Request syntactically incorrect.
+        body:
+          application/json:
+            type: response.400
+  /{id}:
+    type: resource.item
+    uriParameters:
+      id:
+        description: Id of a movie item
+        type: string
+    get:
+      description: Get a single movie item
+      responses:
+        200:
+          description: Success. The movie item returned.
+          body:
+            application/json:
+              type: MovieItem
+              example: !include /examples/movieGet.json
+        404:
+          description: Resource not found.
+          body:
+            application/json:
+              type: response.404

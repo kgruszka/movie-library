@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sjgdy223",
+    "title": "MyAwesomeMovie",
+    "rating": 3.88,
+    "director": "Ken Block",
+    "actors": ["John Snow" , "Christina Jake"],
+    "category": "Thriller",
+    "createdAt": "2016-06-07T09:53:42.523Z"
+  },
+  {
+    "id": "sad223",
+    "title": "MyAwesomeMovie2",
+    "rating": 4.34,
+    "director": "Gan Vardy",
+    "actors": ["Will Smith" , "Angelina Jolie"],
+    "category": "Comedy",
+    "createdAt": "2016-04-23T13:25:22.152Z"
+  }
+]
