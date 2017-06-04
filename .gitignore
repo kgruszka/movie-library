@@ -61,3 +61,4 @@ typings/
 
 # IDE files
 .idea
+JetBrains.Dockerfile
