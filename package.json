@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "NODE_ENV=test mocha src/**/**/*.spec.js",
-    "test:acceptance": "NODE_ENV=test mocha src/**/*.accept.js",
+    "test": "NODE_ENV=test mocha --recursive \"src/**/*.spec.js\"",
+    "test:acceptance": "NODE_ENV=test mocha --recursive \"src/**/*.accept.js\"",
     "standard": "standard",
     "pretest": "standard",
     "nodemon": "NODE_ENV=development nodemon --watch src -L src/server.js",
