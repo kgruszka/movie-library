@@ -7,6 +7,9 @@ services:
     image: ${MOVIE_LIBRARY_IMAGE}
     container_name: ${MOVIE_LIBRARY_CONTAINER}
     command: [run-script, nodemon]
+    environment:
+      - MONGO_HOST:${MONGO_HOST}
+      - MONGO_PORT:${MONGO_PORT}
     depends_on:
         mongo:
           condition: service_started
