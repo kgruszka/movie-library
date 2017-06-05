@@ -28,11 +28,11 @@ types:
     queryParameters:
       sort:
         description: |
-          The list of comma-separated properties used to sort the results.
+          Parameter used to sort the results.
           The columns are sorted by default in ascending order. Descending order is specified by fieldName:desc
-          Allowed forms are: fieldName, fieldName:asc, fieldName:desc.
+          Allowed forms are: fieldName, fieldName:desc.
           Default: rating:asc
-        example: "?sort=rating,category:desc"
+        example: "?sort=category:desc"
     responses:
       200:
         description: Success. The list of movie items returned.

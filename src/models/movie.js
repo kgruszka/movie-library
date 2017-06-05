@@ -2,8 +2,12 @@
 function Movie (db) {
   const moviesCollection = db.collection('movies')
 
-  async function getAll () {
-    return moviesCollection.find({}).toArray()
+  async function getAll ({sortBy} = {}) {
+    if (sortBy) {
+      return moviesCollection.find({}).sort(sortBy).toArray()
+    } else {
+      return moviesCollection.find({}).toArray()
+    }
   }
 
   async function save (movie) {

@@ -1,9 +1,25 @@
 'use strict'
+const VError = require('verror').VError
+const sortQueryParameterRegexp = new RegExp(/^[a-z]+($|:desc$)/)
 
 function MovieController (movieService) {
-  async function getAll (req, res) {
-    const movies = await movieService.getAll()
-    res.json(movies)
+  async function getAll (req, res, next) {
+    try {
+      const sortBy = extractSortParameter(req.query.sort)
+      const movies = await movieService.getAll({sortBy})
+      res.json(movies)
+    } catch (err) {
+      if (VError.hasCauseWithName(err, 'InvalidSortByParameterError')) {
+        console.log(err)
+        res.status(400)
+        res.json({
+          status: 400,
+          message: err.message,
+          info: VError.info(err)
+        })
+      }
+      next(err)
+    }
   }
 
   async function create (req, res) {
@@ -44,6 +60,31 @@ function MovieController (movieService) {
       res.status(500)
       res.json({})
     }
+  }
+  //
+  // async function handleError (err, req, res, next) {
+  //   if (err instanceof errors.InternalServerError) {
+  //     res.status(500).json({
+  //       status: 500,
+  //       message: 'Internal Server Error'
+  //     })
+  //   } else {
+  //     next(err)
+  //   }
+  // }
+
+  function extractSortParameter (queryString) {
+    const sortBy = {}
+    if (queryString) {
+      const query = queryString.toLowerCase()
+      if (sortQueryParameterRegexp.test(query)) {
+        throw new VError({name: 'InvalidSortByParameterError'}, 'Invalid sort query parameter syntax')
+      }
+      const queryChunks = query.split(':')
+      sortBy.field = queryChunks[0]
+      if (queryChunks[1] === 'desc') sortBy.desc = true
+    }
+    return sortBy
   }
 
   return {

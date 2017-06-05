@@ -1,8 +1,11 @@
 'use strict'
+const errors = require('./errors')
+const ALLOWED_SORT_FIELDS = ['category']
 
 function MovieService (db) {
-  async function getAll () {
-    return db.getAll()
+  async function getAll (options) {
+    validateGetAllOptions(options)
+    return db.getAll(options)
   }
 
   async function create (movie) {
@@ -22,6 +25,13 @@ function MovieService (db) {
     create,
     getById,
     deleteById
+  }
+}
+
+function validateGetAllOptions ({sortBy} = {}) {
+  if (sortBy && sortBy.field) {
+    const valid = ALLOWED_SORT_FIELDS.some(field => field === sortBy.field)
+    if (!valid) throw new errors.InvalidSortByParameterError(sortBy)
   }
 }
 
