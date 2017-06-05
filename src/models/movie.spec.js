@@ -68,7 +68,7 @@ describe('movie model', function () {
   })
 
   describe('#deleteById', function () {
-    it('resolves with success', async function () {
+    it('resolves with true if deleted correctly', async function () {
       // GIVEN
       const movieFixtures = fixtures.movies.load()
       const movieId = movieFixtures[0]._id
@@ -79,6 +79,18 @@ describe('movie model', function () {
       const success = await Movie.deleteById(movieId)
       // THEN
       assert.isTrue(success)
+    })
+
+    it('resolves with false if object not found', async function () {
+      // GIVEN
+      const movieId = 'kjh1244dj20z8m3x39dk20da'
+      const db = createFakeDbWithCollection('movies')
+      db.collection('movies').deleteOne = sinon.stub().withArgs({_id: movieId}).resolves({deletedCount: 0})
+      const Movie = createMovieModel(db)
+      // WHEN
+      const success = await Movie.deleteById(movieId)
+      // THEN
+      assert.isFalse(success)
     })
   })
 })

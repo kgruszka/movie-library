@@ -61,14 +61,21 @@ function MovieController (movieService) {
     }
   }
 
-  async function deleteById (req, res) {
-    const result = movieService.deleteById(req.param.id)
-    if (result) {
-      res.status(204)
-      res.send()
-    } else {
-      res.status(500)
-      res.json({})
+  async function deleteById (req, res, next) {
+    try {
+      const success = await movieService.deleteById(req.params.id)
+      if (success) {
+        res.status(204)
+        res.send()
+      } else {
+        res.status(404)
+        res.json({
+          status: 404,
+          message: 'Not Found'
+        })
+      }
+    } catch (err) {
+      next(err)
     }
   }
   //
