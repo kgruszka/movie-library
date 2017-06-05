@@ -23,9 +23,19 @@ function MovieController (movieService) {
   }
 
   async function create (req, res) {
-    const movieId = await movieService.create(req.body)
-    res.status(201)
-    res.json({_id: movieId})
+    try {
+      const movieId = await movieService.create(req.body)
+      res.status(201)
+      res.json({_id: movieId})
+    } catch (err) {
+      if (VError.hasCauseWithName(err, 'InvalidMovieSchemaError')) {
+        res.status(400)
+        res.json({
+          status: 400,
+          message: 'Bad Request'
+        })
+      }
+    }
   }
 
   async function getById (req, res) {

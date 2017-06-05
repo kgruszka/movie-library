@@ -3,13 +3,13 @@ const { VError } = require('verror')
 
 class InvalidArgumentError extends VError {
   constructor (...args) {
-    const error = {
+    const options = {
       name: 'InvalidArgumentError',
       info: {
         invalidArguments: arguments
       }
     }
-    super(error)
+    super(options)
   }
 }
 

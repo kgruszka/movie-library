@@ -1,6 +1,7 @@
 'use strict'
 const errors = require('./errors')
 const ALLOWED_SORT_FIELDS = ['category']
+const { validateMovie } = require('./schemas/validator')
 
 function MovieService (db) {
   async function getAll (options) {
@@ -9,6 +10,7 @@ function MovieService (db) {
   }
 
   async function create (movie) {
+    if (!validateMovie(movie)) throw new errors.InvalidMovieSchemaError(validateMovie.errors)
     return db.save(movie)
   }
 

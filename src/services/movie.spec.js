@@ -31,7 +31,7 @@ describe('movie service module', function () {
       fakeMovieModel.save = sinon.stub().withArgs(movie).resolves(expectedMovieId)
       const movieService = MovieService(fakeMovieModel)
       // WHEN
-      const movieId = await movieService.create()
+      const movieId = await movieService.create(movie)
       // THEN
       assert.strictEqual(movieId, expectedMovieId)
     })

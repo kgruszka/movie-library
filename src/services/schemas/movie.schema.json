@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "required": ["title", "director", "actors", "category"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "director": {
+      "type": "string"
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "category": {
+      "enum": ["thriller", "comedy"]
+    }
+  }
+}

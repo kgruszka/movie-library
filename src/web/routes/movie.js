@@ -9,6 +9,7 @@ function MovieRouter (movieController) {
   router.get('/:id', movieController.getById)
   router.delete('/:id', movieController.deleteById)
 
+  // router.use(movieController.handleError)
   return router
 }
 
