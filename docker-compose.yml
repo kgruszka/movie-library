@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: movie-library-dev
-    container_name: movie-library-dev
+    image: ${MOVIE_LIBRARY_IMAGE}
+    container_name: ${MOVIE_LIBRARY_CONTAINER}
     command: [run-script, nodemon]
     depends_on:
         mongo:
@@ -30,8 +30,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev.dep
-    image: movie-library-dep
-    container_name: movie-library-dep
+    image: ${MOVIE_LIBRARY_DEPENDENCIES_IMAGE}
+    container_name: ${MOVIE_LIBRARY_DEPENDENCIES_CONTAINER}
 
 networks:
   movie-library-net:
