@@ -16,7 +16,7 @@
     "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
-    "ajv": "^5.1.5",
+    "ajv": "^6.12.3",
     "body-parser": "^1.17.1",
     "cors": "^2.8.3",
     "express": "^4.15.2",
